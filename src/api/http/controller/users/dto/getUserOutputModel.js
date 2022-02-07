@@ -25,7 +25,6 @@ class GetUserOutputModel {
     const obj = {};
     obj.id = model.id;
     obj.username = model.username;
-    obj.password = model.password;
     obj.insertDate = this.#dateTime.gregorianWithTimezoneString(model.insertDate);
 
     return obj;
