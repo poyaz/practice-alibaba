@@ -29,6 +29,7 @@ class AddUserValidationMiddleware extends IHttpMiddleware {
     const schema = Joi.object({
       username: usernamePattern,
       password: Joi.string().min(6).required(),
+      repeat_password: Joi.string().required().valid(Joi.ref('password')),
     });
 
     const result = schema.validate(body);
