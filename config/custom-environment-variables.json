@@ -1,0 +1,34 @@
+{
+  "server": {
+    "host": "SERVER_HOST",
+    "http": {
+      "port": "SERVER_HTTP_PORT"
+    },
+    "https": {
+      "port": "SERVER_HTTPS_PORT",
+      "force": "SERVER_HTTPS_FORCE"
+    }
+  },
+  "database": {
+    "mysql": {
+      "host": "DB_MYSQL_HOST",
+      "port": "DB_MYSQL_PORT",
+      "db": "DB_MYSQL_DATABASE",
+      "username": "DB_MYSQL_USERNAME",
+      "password": "DB_MYSQL_PASSWORD",
+      "min": "DB_MYSQL_MIN",
+      "max": "DB_MYSQL_IDLE_TIMEOUT"
+    }
+  },
+  "custom": {
+    "baseUrlPrefix": "BASE_URL_PREFIX",
+    "timezone": {
+      "locales": "TIMEZONE_LOCALES",
+      "zone": "TIMEZONE_ZONE"
+    },
+    "jwt": {
+      "type": "JWT_TYPE",
+      "secret": "JWT_SECRET_KEY"
+    }
+  }
+}
