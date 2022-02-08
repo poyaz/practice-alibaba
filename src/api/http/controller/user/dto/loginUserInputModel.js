@@ -5,7 +5,7 @@
 const crypto = require('crypto');
 const UserModel = require('~src/core/model/userModel');
 
-class AddUserInputModel {
+class LoginUserInputModel {
   /**
    *
    * @param body
@@ -23,4 +23,4 @@ class AddUserInputModel {
   }
 }
 
-module.exports = AddUserInputModel;
+module.exports = LoginUserInputModel;

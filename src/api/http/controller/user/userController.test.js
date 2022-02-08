@@ -148,7 +148,7 @@ suite(`UserController`, () => {
       container.userService.auth.should.have.callCount(1);
       container.userService.auth.should.have.calledWith(
         sinon.match(container.req.body.username),
-        sinon.match(container.req.body.password),
+        sinon.match.string,
       );
       container.jwt.sign.should.have.calledWith(sinon.match.has('id', outputModel.id));
       expect(error).to.be.a('null');

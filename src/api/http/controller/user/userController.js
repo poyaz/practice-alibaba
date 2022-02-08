@@ -4,6 +4,7 @@
 
 const AddUserInputModel = require('./dto/addUserInputModel');
 const GetUserOutputModel = require('./dto/getUserOutputModel');
+const LoginUserInputModel = require('./dto/loginUserInputModel');
 const LoginUserOutputModel = require('./dto/loginUserOutputModel');
 
 class UserController {
@@ -71,9 +72,12 @@ class UserController {
   }
 
   async loginUser() {
-    const { username, password } = this.#req.body;
+    const body = this.#req.body;
 
-    const [error, data] = await this.#userService.auth(username, password);
+    const loginUserInputModel = new LoginUserInputModel();
+    const model = loginUserInputModel.getModel(body);
+
+    const [error, data] = await this.#userService.auth(model.username, model.password);
     if (error) {
       return [error];
     }
