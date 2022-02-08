@@ -21,8 +21,15 @@ class GetAllLinkOutputModel {
    */
   getOutput(models) {
     const baseLinkOutputModel = new BaseLinkOutputModel(this.#dateTime);
-    
-    return models.map((v) => baseLinkOutputModel.getOutput(v));
+
+    return models.map((v) => {
+      const model = baseLinkOutputModel.getOutput(v);
+
+      delete model.userId;
+      delete model.username;
+
+      return model;
+    });
   }
 }
 

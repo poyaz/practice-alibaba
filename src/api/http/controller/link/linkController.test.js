@@ -75,8 +75,6 @@ suite(`LinkController`, () => {
       expect(result.items[0]).to.be.a('object');
       expect(result.items[0]).to.have.include({
         id: outputModel1.id,
-        userId: outputModel1.userId,
-        username: outputModel1.username,
         url: outputModel1.url,
         redirectTo: outputModel1.redirectTo,
       });

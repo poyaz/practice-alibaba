@@ -3,6 +3,7 @@
  */
 
 const GetAllLinksOutputModel = require('./dto/getAllLinkOutputModel');
+const GetAllLinkWithUserIDOutputModel = require('./dto/getAllLinkWithUserIDOutputModel');
 const GetAllWithUserIdInputModel = require('./dto/getAllWithUserIdInputModel');
 const AddLinkInputModel = require('./dto/addLinkInputModel');
 const BaseLinkOutputModel = require('./dto/baseLinkOutputModel');
@@ -73,8 +74,8 @@ class LinkController {
       return [error];
     }
 
-    const getAllLinksOutputModel = new GetAllLinksOutputModel(this.#dateTime);
-    const result = getAllLinksOutputModel.getOutput(data);
+    const getAllLinkWithUserIDOutputModel = new GetAllLinkWithUserIDOutputModel(this.#dateTime);
+    const result = getAllLinkWithUserIDOutputModel.getOutput(data);
 
     return [null, {
       totalItems: count,
