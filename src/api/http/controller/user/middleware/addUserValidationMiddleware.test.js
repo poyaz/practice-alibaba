@@ -15,7 +15,7 @@ chai.use(dirtyChai);
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-const AddUserValidationMiddleware = require('~src/api/http/controller/users/middleware/addUserValidationMiddleware');
+const AddUserValidationMiddleware = require('~src/api/http/controller/user/middleware/addUserValidationMiddleware');
 
 /**
  * @property eventually
@@ -86,7 +86,7 @@ suite(`AddUserValidation`, () => {
       );
   });
 
-  test(`Should error for add new user if repeat_password not exits`, async () => {
+  test(`Should error for add new user if confirmPassword not exits`, async () => {
     container.req.body = { username: 'my_username', password: '123456' };
 
     const badCall = container.addUserValidationMiddleware.act();
@@ -94,11 +94,11 @@ suite(`AddUserValidation`, () => {
     await expect(badCall)
       .to.eventually.have.rejectedWith(SchemaValidatorException)
       .and.have.property('httpCode', 400)
-      .and.have.nested.property('additionalInfo[0].message', `"repeat_password" is required`);
+      .and.have.nested.property('additionalInfo[0].message', `"confirmPassword" is required`);
   });
 
-  test(`Should error for add new user if password and repeat_password not equal`, async () => {
-    container.req.body = { username: 'my_username', password: '123456', repeat_password: '1' };
+  test(`Should error for add new user if password and confirmPassword not equal`, async () => {
+    container.req.body = { username: 'my_username', password: '123456', confirmPassword: '1' };
 
     const badCall = container.addUserValidationMiddleware.act();
 
@@ -106,11 +106,11 @@ suite(`AddUserValidation`, () => {
       .to.eventually.have.rejectedWith(SchemaValidatorException)
       .and.have.property('httpCode', 400)
       .and.have.nested
-      .property('additionalInfo[0].message', `"repeat_password" must be [ref:password]`);
+      .property('additionalInfo[0].message', `"confirmPassword" must be [ref:password]`);
   });
 
   test(`Should successfully for add new user`, async () => {
-    container.req.body = { username: 'my_username', password: '123456', repeat_password: '123456' };
+    container.req.body = { username: 'my_username', password: '123456', confirmPassword: '123456' };
 
     await container.addUserValidationMiddleware.act();
   });
