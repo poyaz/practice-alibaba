@@ -23,7 +23,7 @@ class LoginUserValidationMiddleware extends IHttpMiddleware {
     const { body } = this.#req;
 
     const usernamePattern = Joi.string()
-      .regex(/^[a-zA-Z0-9_.]{3,20}/)
+      .regex(/^[a-zA-Z0-9_.]{3,20}$/)
       .required();
 
     const schema = Joi.object({

@@ -68,7 +68,7 @@ suite(`AddUserValidation`, () => {
       .and.have.property('httpCode', 400)
       .and.have.nested.property(
         'additionalInfo[0].message',
-        `"username" with value "my$username|" fails to match the required pattern: /^[a-zA-Z0-9_.]{3,20}/`,
+        `"username" with value "my$username|" fails to match the required pattern: /^[a-zA-Z0-9_.]{3,20}$/`,
       );
   });
 
