@@ -27,8 +27,8 @@ class IUserService {
 
   /**
    *
-   * @param {UserModel} username
-   * @param {UserModel} password
+   * @param {string} username
+   * @param {string} password
    * @return {Promise<(Error|UserModel)[]>}
    */
   async auth(username, password) {
