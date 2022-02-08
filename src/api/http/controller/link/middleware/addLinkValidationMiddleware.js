@@ -24,7 +24,7 @@ class AddLinkValidationMiddleware extends IHttpMiddleware {
 
     const redirectPattern = Joi.string()
       .regex(/^[a-zA-Z0-9]{4,20}/)
-      .required();
+      .optional();
 
     const schema = Joi.object({
       url: Joi.string().uri().required(),

@@ -47,17 +47,6 @@ suite(`AddLinkValidation`, () => {
       .and.have.nested.property('additionalInfo[0].message', `"url" is required`);
   });
 
-  test(`Should error for add new link if redirectTo not exits`, async () => {
-    container.req.body = { url: 'http://example.com' };
-
-    const badCall = container.addLinkValidationMiddleware.act();
-
-    await expect(badCall)
-      .to.eventually.have.rejectedWith(SchemaValidatorException)
-      .and.have.property('httpCode', 400)
-      .and.have.nested.property('additionalInfo[0].message', `"redirectTo" is required`);
-  });
-
   test(`Should error for add new link if username invalid`, async () => {
     container.req.body = { url: '123', redirectTo: '123456' };
 
