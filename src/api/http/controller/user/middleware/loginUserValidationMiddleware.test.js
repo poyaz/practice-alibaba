@@ -15,7 +15,7 @@ chai.use(dirtyChai);
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-const LoginUserValidationMiddleware = require('~src/api/http/controller/users/middleware/loginUserValidationMiddleware');
+const LoginUserValidationMiddleware = require('~src/api/http/controller/user/middleware/loginUserValidationMiddleware');
 
 /**
  * @property eventually

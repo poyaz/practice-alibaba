@@ -34,3 +34,13 @@ If you don't use docker you have to do below step:
 4. open file **env/app/.env**
 5. change environment variable if need
 7. execute this command: `npm install --only prod; npm start`
+
+
+Test
+====
+
+Uou can run TDD unit test with this command:
+
+```bash
+npm run test
+```

@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "nodemon": "./node_modules/nodemon/bin/nodemon.js --inspect=0.0.0.0 --ignore tests/ index.js",
-    "prestart": "exit",
-    "pretest": "exit",
+    "test": "./node_modules/mocha/bin/mocha --ui tdd src/**/*.test.js",
     "start": "node index.js"
   },
   "engines": {
