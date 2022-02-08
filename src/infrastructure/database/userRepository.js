@@ -5,6 +5,7 @@
 const UserModel = require('~src/core/model/userModel');
 const IUserRepository = require('~src/core/interface/iUserRepository');
 const DatabaseExecuteException = require('~src/core/exception/databaseExecuteException');
+const UserExistException = require('~src/core/exception/userExistException');
 
 class UserRepository extends IUserRepository {
   #identifierGenerator;
@@ -60,7 +61,11 @@ class UserRepository extends IUserRepository {
       const result = this._fillModel(data);
 
       return [null, result];
-    } catch (error) {console.log(error)
+    } catch (error) {
+      if (error.name && error.name === 'SequelizeUniqueConstraintError') {
+        return [new UserExistException()];
+      }
+
       return [new DatabaseExecuteException(error)];
     }
   }
