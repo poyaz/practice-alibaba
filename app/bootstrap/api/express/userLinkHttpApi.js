@@ -8,6 +8,8 @@ const expressApi = require('express');
 
 const router = expressApi.Router();
 
+const AddLinkValidationMiddleware = require('~src/api/http/controller/link/middleware/addLinkValidationMiddleware');
+const UpdateLinkValidationMiddleware = require('~src/api/http/controller/link/middleware/updateLinkValidationMiddleware');
 const LinkController = require('~src/api/http/controller/link/linkController');
 const TokenMiddleware = require('~src/api/http/middleware/tokenMiddleware');
 
@@ -58,6 +60,16 @@ class UserLinkHttpApi extends IRunner {
       '/:userId/links',
       async (req, res, next) => {
         try {
+          const addLinkValidationMiddleware = new AddLinkValidationMiddleware(req, res);
+
+          await addLinkValidationMiddleware.act();
+          next();
+        } catch (error) {
+          next(error);
+        }
+      },
+      async (req, res, next) => {
+        try {
           const linkController = new LinkController(req, res, this._dependency.linkService, this._dependency.dateTime);
 
           res.locals.output = await linkController.addLink();
@@ -71,6 +83,16 @@ class UserLinkHttpApi extends IRunner {
 
     router.put(
       '/:userId/links/:linkId',
+      async (req, res, next) => {
+        try {
+          const updateLinkValidationMiddleware = new UpdateLinkValidationMiddleware(req, res);
+
+          await updateLinkValidationMiddleware.act();
+          next();
+        } catch (error) {
+          next(error);
+        }
+      },
       async (req, res, next) => {
         try {
           const linkController = new LinkController(req, res, this._dependency.linkService, this._dependency.dateTime);
