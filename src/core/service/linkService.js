@@ -3,7 +3,6 @@
  */
 
 const ILinkService = require('~src/core/interface/iLinkService');
-const AuthException = require('~src/core/exception/authException');
 const NotFoundException = require('~src/core/exception/notFoundException');
 const GenerateLinkException = require('~src/core/exception/generateLinkException');
 
@@ -20,12 +19,13 @@ class LinkService extends ILinkService {
   /**
    *
    * @param {ILinkRepository} linkRepository
+   * @param {string} baseUrlPrefix
    */
   constructor(linkRepository, baseUrlPrefix) {
     super();
 
     this.#linkRepository = linkRepository;
-    this.#baseUrlPrefix = baseUrlPrefix.substr(0, -1) !== '/' ? `${baseUrlPrefix}/`: baseUrlPrefix;
+    this.#baseUrlPrefix = baseUrlPrefix.substr(-1, 1) !== '/' ? `${baseUrlPrefix}/` : baseUrlPrefix;
   }
 
   async getById(id) {
@@ -36,20 +36,20 @@ class LinkService extends ILinkService {
     if (!data) {
       return [new NotFoundException()];
     }
-    
+
     this._convertRedirectUrl(data);
 
     return [null, data];
   }
 
-  async getAll({page = 1, limit = 10} = {}) {
+  async getAll(filter, { page = 1, limit = 10 } = {}) {
     const [
       [errorCount, dataCount],
       [errorFetch, dataFetch],
     ] = await Promise.all([
-      this.#linkRepository.getCount(),
-      this.#linkRepository.getAll({page, limit}),
-    ])
+      this.#linkRepository.getCount(filter),
+      this.#linkRepository.getAll(filter, { page, limit }),
+    ]);
     if (errorCount || errorFetch) {
       return [errorCount || errorFetch];
     }
@@ -69,7 +69,14 @@ class LinkService extends ILinkService {
       model.redirectTo = link;
     }
 
-    return this.#linkRepository.add(model);
+    const [error, data] = await this.#linkRepository.add(model);
+    if (error) {
+      return [error];
+    }
+
+    this._convertRedirectUrl(data);
+
+    return [null, data];
   }
 
   async update(model) {
@@ -95,8 +102,7 @@ class LinkService extends ILinkService {
   }
 
   async _generateRedirectUrl() {
-    // generate 10 random links
-    const list = [];
+    const list = new Array(10).fill(null).map(() => this._generateRandomString());
 
     const [error, data] = await this.#linkRepository.checkRedirectUrl(list);
     if (error) {
@@ -109,6 +115,12 @@ class LinkService extends ILinkService {
     const link = list.filter((n) => data.findIndex((m) => n === m) === -1)[0];
 
     return [null, link];
+  }
+
+  _generateRandomString() {
+    const length = Math.floor(Math.random() * 10) + 4;
+
+    return Buffer.from(Math.random().toString()).toString('base64').substr(10, length);
   }
 }
 

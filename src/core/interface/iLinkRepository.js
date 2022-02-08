@@ -6,7 +6,7 @@ class ILinkRepository {
   /**
    *
    * @param {string} id
-   * @return {Promise<(Error|UsersModel)[]>}
+   * @return {Promise<(Error|LinkModel)[]>}
    */
   async getById(id) {
     const error = new Error('The method has to be overridden by subclasses.');
@@ -16,35 +16,37 @@ class ILinkRepository {
 
   /**
    *
+   * @param {FilterModel|null} filter
    * @param {Object} [options]
    * @param {number} [options.page=1]
    * @param {number} [options.limit=10]
    * @return {Promise<(Error|Array<LinkModel>|number)[]>}
    */
-   async getAll({page = 1, limit = 10} = {}) {
+  async getAll(filter, { page = 1, limit = 10 } = {}) {
     const error = new Error('The method has to be overridden by subclasses.');
-    error['args'] = { page, limit };
+    error['args'] = { filter, page, limit };
     throw error;
   }
 
   /**
    *
+   * @param {FilterModel|null} filter
    * @return {Promise<(Error|number)[]>}
    */
-  async getCount() {
+  async getCount(filter) {
     const error = new Error('The method has to be overridden by subclasses.');
-    error['args'] = {};
+    error['args'] = { filter };
     throw error;
   }
 
   /**
    *
-   * @param {Array<string} list
+   * @param {Array<string>} list
    * @return {Promise<(Error|Array<string>)[]>}
    */
   async checkRedirectUrl(list) {
     const error = new Error('The method has to be overridden by subclasses.');
-    error['args'] = {list};
+    error['args'] = { list };
     throw error;
   }
 
@@ -64,7 +66,7 @@ class ILinkRepository {
    * @param {LinkModel} model
    * @return {Promise<(Error|boolean)[]>}
    */
-   async update(model) {
+  async update(model) {
     const error = new Error('The method has to be overridden by subclasses.');
     error['args'] = { model };
     throw error;
@@ -75,9 +77,9 @@ class ILinkRepository {
    * @param {string} id
    * @return {Promise<(Error|boolean)[]>}
    */
-   async delete(id) {
+  async delete(id) {
     const error = new Error('The method has to be overridden by subclasses.');
-    error['args'] = { model };
+    error['args'] = { id };
     throw error;
   }
 }
