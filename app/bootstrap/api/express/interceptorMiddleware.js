@@ -29,7 +29,6 @@ class InterceptorMiddleware extends IRunner {
         return;
       }
 
-      console.log(res.locals);
       const [error, data] = res.locals.output;
 
       if (error) {

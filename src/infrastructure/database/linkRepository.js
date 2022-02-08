@@ -5,6 +5,7 @@
 const { Op } = require('sequelize');
 const LinkModel = require('~src/core/model/linkModel');
 const ILinkRepository = require('~src/core/interface/iLinkRepository');
+const LinkExistException = require('~src/core/exception/linkExistException');
 const DatabaseExecuteException = require('~src/core/exception/databaseExecuteException');
 
 class LinkRepository extends ILinkRepository {
@@ -45,7 +46,6 @@ class LinkRepository extends ILinkRepository {
 
       return [null, result];
     } catch (error) {
-      console.log(error);
       return [new DatabaseExecuteException(error)];
     }
   }
@@ -112,6 +112,10 @@ class LinkRepository extends ILinkRepository {
 
       return [null, result];
     } catch (error) {
+      if (error.name && error.name === 'SequelizeUniqueConstraintError') {
+        return [new LinkExistException()];
+      }
+
       return [new DatabaseExecuteException(error)];
     }
   }
@@ -125,8 +129,12 @@ class LinkRepository extends ILinkRepository {
 
       const data = await this.#linkEntity.update(entity, { where: { id: model.id } });
 
-      return [null, data === 1];
+      return [null, data[0] === 1];
     } catch (error) {
+      if (error.name && error.name === 'SequelizeUniqueConstraintError') {
+        return [new LinkExistException()];
+      }
+
       return [new DatabaseExecuteException(error)];
     }
   }
