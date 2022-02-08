@@ -71,7 +71,7 @@ suite(`AddLinkValidation`, () => {
       .and.have.property('httpCode', 400)
       .and.have.nested.property(
         'additionalInfo[0].message',
-        `"redirectTo" with value "15%#@" fails to match the required pattern: /^[a-zA-Z0-9]{4,20}/`,
+        `"redirectTo" with value "15%#@" fails to match the required pattern: /^[a-zA-Z0-9]{4,20}$/`,
       );
   });
 
