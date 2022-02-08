@@ -14,7 +14,7 @@ chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
 const UsersService = require('~src/core/service/userService');
-const AuthException = require('~src/core/exception/authException');
+const LoginException = require('~src/core/exception/loginException');
 const UnknownException = require('~src/core/exception/unknownException');
 const NotFoundException = require('~src/core/exception/notFoundException');
 const UserModel = require('~src/core/model/userModel');
@@ -137,7 +137,7 @@ suite(`UserService`, () => {
       const [error] = await container.userService.auth(inputUsername, inputPassword);
 
       container.userRepository.getUserByUsernameAndPassword.should.have.callCount(1);
-      expect(error).to.be.an.instanceof(AuthException);
+      expect(error).to.be.an.instanceof(LoginException);
     });
 
     test(`Should successful authenticate user`, async () => {

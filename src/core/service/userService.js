@@ -3,7 +3,7 @@
  */
 
 const IUserService = require('~src/core/interface/iUserService');
-const AuthException = require('~src/core/exception/authException');
+const LoginException = require('~src/core/exception/loginException');
 const NotFoundException = require('~src/core/exception/notFoundException');
 
 class UserService extends IUserService {
@@ -44,7 +44,7 @@ class UserService extends IUserService {
       return [error];
     }
     if (!data) {
-      return [new AuthException()];
+      return [new LoginException()];
     }
 
     return [null, data];
