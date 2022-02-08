@@ -7,7 +7,7 @@ const AddLinkInputModel = require('./dto/addLinkInputModel');
 const BaseLinkOutputModel = require('./dto/baseLinkOutputModel');
 const UpdateLinkInputModel = require('./dto/updateLinkInputModel');
 
-class LinksController {
+class LinkController {
   #req;
   #res;
   /**
@@ -26,7 +26,7 @@ class LinksController {
    * @param {ILinksService} linksService
    * @param {IDateTime} dateTime
    */
-   constructor(req, res, linksService, dateTime) {
+  constructor(req, res, linksService, dateTime) {
     this.#req = req;
     this.#res = res;
     this.#linksService = linksService;
@@ -39,7 +39,7 @@ class LinksController {
     const options = {
       page: page ? page : 1,
       limit: limit ? limit : 10,
-    }
+    };
 
     const [error, data, count] = await this.#linksService.getAll(options);
     if (error) {
@@ -85,7 +85,7 @@ class LinksController {
       return [error];
     }
 
-    return [null, {change: data}];
+    return [null, { change: data }];
   }
 
   async deleteLink() {
@@ -99,3 +99,5 @@ class LinksController {
     return [null];
   }
 }
+
+module.exports = LinkController;
