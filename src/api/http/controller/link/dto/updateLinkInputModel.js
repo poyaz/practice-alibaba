@@ -3,9 +3,9 @@ const LinkModel = require('~src/core/model/linkModel');
 class UpdateLinkInputModel {
  /**
    *
-   * @param userId
+   * @param linkId
    * @param body
-   * @return {UsersModel}
+   * @return {LinkModel}
    */
   getModel(linkId, body) {
     const model = new LinkModel();
