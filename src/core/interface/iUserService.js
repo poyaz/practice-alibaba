@@ -6,7 +6,7 @@ class IUserService {
   /**
    *
    * @param {string} id
-   * @return {Promise<(Error|UsersModel)[]>}
+   * @return {Promise<(Error|UserModel)[]>}
    */
   async getById(id) {
     const error = new Error('The method has to be overridden by subclasses.');
@@ -16,8 +16,8 @@ class IUserService {
 
   /**
    *
-   * @param {UsersModel} model
-   * @return {Promise<(Error|UsersModel)[]>}
+   * @param {UserModel} model
+   * @return {Promise<(Error|UserModel)[]>}
    */
   async add(model) {
     const error = new Error('The method has to be overridden by subclasses.');
@@ -27,9 +27,9 @@ class IUserService {
 
   /**
    *
-   * @param {UsersModel} username
-   * @param {UsersModel} password
-   * @return {Promise<(Error|UsersModel)[]>}
+   * @param {UserModel} username
+   * @param {UserModel} password
+   * @return {Promise<(Error|UserModel)[]>}
    */
   async auth(username, password) {
     const error = new Error('The method has to be overridden by subclasses.');
