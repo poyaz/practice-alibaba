@@ -5,7 +5,7 @@ class AddLinkInputModel {
    *
    * @param userId
    * @param body
-   * @return {UsersModel}
+   * @return {LinkModel}
    */
   getModel(userId, body) {
     const model = new LinkModel();
