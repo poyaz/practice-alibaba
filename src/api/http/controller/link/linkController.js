@@ -3,6 +3,7 @@
  */
 
 const GetAllLinksOutputModel = require('./dto/getAllLinkOutputModel');
+const GetAllWithUserIdInputModel = require('./dto/getAllWithUserIdInputModel');
 const AddLinkInputModel = require('./dto/addLinkInputModel');
 const BaseLinkOutputModel = require('./dto/baseLinkOutputModel');
 const UpdateLinkInputModel = require('./dto/updateLinkInputModel');
@@ -41,7 +42,33 @@ class LinkController {
       limit: limit ? limit : 10,
     };
 
-    const [error, data, count] = await this.#linksService.getAll(options);
+    const [error, data, count] = await this.#linksService.getAll(null, options);
+    if (error) {
+      return [error];
+    }
+
+    const getAllLinksOutputModel = new GetAllLinksOutputModel(this.#dateTime);
+    const result = getAllLinksOutputModel.getOutput(data);
+
+    return [null, {
+      totalItems: count,
+      items: result,
+    }];
+  }
+
+  async getAllWithUserId() {
+    const { page, limit } = this.#req.query;
+    const { userId } = this.#req.params;
+
+    const options = {
+      page: page ? page : 1,
+      limit: limit ? limit : 10,
+    };
+
+    const getAllWithUserIdInputModel = new GetAllWithUserIdInputModel();
+    const model = getAllWithUserIdInputModel.getModel(userId);
+
+    const [error, data, count] = await this.#linksService.getAll(model, options);
     if (error) {
       return [error];
     }
@@ -91,7 +118,7 @@ class LinkController {
   async deleteLink() {
     const { linkId } = this.#req.params;
 
-    const [error, data] = await this.#linksService.delete(linkId);
+    const [error] = await this.#linksService.delete(linkId);
     if (error) {
       return [error];
     }

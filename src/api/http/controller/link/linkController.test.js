@@ -17,6 +17,7 @@ chai.use(chaiAsPromised);
 const LinkController = require('~src/api/http/controller/link/linkController');
 const UnknownException = require('~src/core/exception/unknownException');
 const LinkModel = require('~src/core/model/linkModel');
+const FilterModel = require('~src/core/model/filterModel');
 const DateTime = require('~src/infrastructure/system/dateTime');
 
 const ILinkService = require('~src/core/interface/iLinkService');
@@ -91,6 +92,7 @@ suite(`LinkController`, () => {
 
       container.linkService.getAll.should.have.callCount(1);
       container.linkService.getAll.should.have.calledWith(
+        sinon.match(null),
         sinon.match.has('page', 1)
           .and(sinon.match.has('limit', 10)),
       );
@@ -108,6 +110,7 @@ suite(`LinkController`, () => {
 
       container.linkService.getAll.should.have.callCount(1);
       container.linkService.getAll.should.have.calledWith(
+        sinon.match(null),
         sinon.match.has('page', 3)
           .and(sinon.match.has('limit', 10)),
       );
@@ -125,6 +128,7 @@ suite(`LinkController`, () => {
 
       container.linkService.getAll.should.have.callCount(1);
       container.linkService.getAll.should.have.calledWith(
+        sinon.match(null),
         sinon.match.has('page', 1)
           .and(sinon.match.has('limit', 20)),
       );
@@ -142,6 +146,7 @@ suite(`LinkController`, () => {
 
       container.linkService.getAll.should.have.callCount(1);
       container.linkService.getAll.should.have.calledWith(
+        sinon.match(null),
         sinon.match.has('page', 2)
           .and(sinon.match.has('limit', 20)),
       );
@@ -149,6 +154,59 @@ suite(`LinkController`, () => {
       expect(result).to.be.a('object');
       expect(result.totalItems).to.be.equal(0);
       expect(result.items.length).to.be.equal(0);
+    });
+  });
+
+  suite(`Get all link by user id`, () => {
+    test(`Should error get all link by user id`, async () => {
+      container.req.query = {};
+      container.req.params = { userId: '00000000-0000-0000-0000-000000000000' };
+      container.linkService.getAll.resolves([new UnknownException()]);
+
+      const [error] = await container.linkController.getAllWithUserId();
+
+      container.linkService.getAll.should.have.callCount(1);
+      expect(error).to.be.an.instanceof(UnknownException);
+    });
+
+    test(`Should successfully get all link by user id`, async () => {
+      container.req.query = {};
+      container.req.params = { userId: '00000000-0000-0000-0000-000000000000' };
+      const outputModel1 = new LinkModel();
+      outputModel1.id = '00000000-0000-0000-0000-000000000000';
+      outputModel1.userId = '00000000-0000-0000-0000-000000000000';
+      outputModel1.username = 'username';
+      outputModel1.url = 'https://google.com';
+      outputModel1.redirectTo = 'https://shourtlink.com/a63Hg67';
+      outputModel1.insertDate = new Date();
+      outputModel1.updateDate = new Date();
+      container.linkService.getAll.resolves([null, [outputModel1], 1]);
+
+      const [error, result] = await container.linkController.getAllWithUserId();
+
+      container.linkService.getAll.should.have.callCount(1);
+      container.linkService.getAll.should.have.calledWith(
+        sinon.match.instanceOf(FilterModel)
+          .and(sinon.match.has('operation', 'eq'))
+          .and(sinon.match.has('key', 'userId'))
+          .and(sinon.match.has('value', container.req.params.userId)),
+        sinon.match.has('page', 1)
+          .and(sinon.match.has('limit', 10)),
+      );
+      expect(error).to.be.a('null');
+      expect(result).to.be.a('object');
+      expect(result.totalItems).to.be.equal(1);
+      expect(result.items.length).to.be.equal(1);
+      expect(result.items[0]).to.be.a('object');
+      expect(result.items[0]).to.have.include({
+        id: outputModel1.id,
+        userId: outputModel1.userId,
+        username: outputModel1.username,
+        url: outputModel1.url,
+        redirectTo: outputModel1.redirectTo,
+      });
+      expect(result.items[0].insertDate).to.have.match(container.dateRegex);
+      expect(result.items[0].updateDate).to.have.match(container.dateRegex);
     });
   });
 

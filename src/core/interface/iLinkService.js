@@ -16,14 +16,15 @@ class ILinksService {
 
   /**
    *
+   * @param {FilterModel|null} filter
    * @param {Object} [options]
    * @param {number} [options.page=1]
    * @param {number} [options.limit=10]
    * @return {Promise<(Error|Array<LinkModel>|number)[]>}
    */
-  async getAll({page = 1, limit = 10} = {}) {
+  async getAll(filter, {page = 1, limit = 10} = {}) {
     const error = new Error('The method has to be overridden by subclasses.');
-    error['args'] = { page, limit };
+    error['args'] = { filter, page, limit };
     throw error;
   }
 
