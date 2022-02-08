@@ -150,7 +150,7 @@ suite(`UserController`, () => {
         sinon.match(container.req.body.username),
         sinon.match.string,
       );
-      container.jwt.sign.should.have.calledWith(sinon.match.has('id', outputModel.id));
+      container.jwt.sign.should.have.calledWith(sinon.match.has('userId', outputModel.id));
       expect(error).to.be.a('null');
       expect(result).to.be.a('object');
       expect(result).to.have.include({
