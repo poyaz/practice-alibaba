@@ -9,11 +9,11 @@
  * @property {string} password
  * @property {Date} insertDate
  */
-class UsersModel {
+class UserModel {
   id = undefined;
   username = undefined;
   password = undefined;
   insertDate = undefined;
 }
 
-module.exports = UsersModel;
+module.exports = UserModel;

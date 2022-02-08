@@ -13,18 +13,18 @@ chai.use(dirtyChai);
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-const UsersService = require('~src/core/service/usersService');
+const UsersService = require('~src/core/service/userService');
 const AuthException = require('~src/core/exception/authException');
 const UnknownException = require('~src/core/exception/unknownException');
 const NotFoundException = require('~src/core/exception/notFoundException');
-const UserModel = require('~src/core/model/usersModel');
+const UserModel = require('~src/core/model/userModel');
 
 const IUserRepository = require('~src/core/interface/iUserRepository');
 
 const expect = chai.expect;
 const container = {};
 
-suite(`UsersService`, () => {
+suite(`UserService`, () => {
   setup(() => {
     const userRepository = sinon.createStubInstance(IUserRepository);
 

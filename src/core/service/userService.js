@@ -6,7 +6,7 @@ const IUserService = require('~src/core/interface/iUserService');
 const AuthException = require('~src/core/exception/authException');
 const NotFoundException = require('~src/core/exception/notFoundException');
 
-class UsersService extends IUserService {
+class UserService extends IUserService {
   /**
    * @type {IUserRepository}
    */
@@ -51,4 +51,4 @@ class UsersService extends IUserService {
   }
 }
 
-module.exports = UsersService;
+module.exports = UserService;

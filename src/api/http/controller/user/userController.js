@@ -6,7 +6,7 @@ const AddUserInputModel = require('./dto/addUserInputModel');
 const GetUserOutputModel = require('./dto/getUserOutputModel');
 const LoginUserOutputModel = require('./dto/loginUserOutputModel');
 
-class UsersController {
+class UserController {
   #req;
   #res;
   /**
@@ -85,4 +85,4 @@ class UsersController {
   }
 }
 
-module.exports = UsersController;
+module.exports = UserController;

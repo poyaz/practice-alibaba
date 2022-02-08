@@ -2,16 +2,16 @@
  * Created by pooya on 8/23/21.
  */
 
-const UsersModel = require('~src/core/model/usersModel');
+const UserModel = require('~src/core/model/userModel');
 
 class AddUserInputModel {
   /**
    *
    * @param body
-   * @return {UsersModel}
+   * @return {UserModel}
    */
   getModel(body) {
-    const model = new UsersModel();
+    const model = new UserModel();
     model.username = body.username;
     model.password = body.password;
 

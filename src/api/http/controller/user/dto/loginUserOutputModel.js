@@ -18,7 +18,7 @@ class LoginUserOutputModel {
 
   /**
    *
-   * @param {UsersModel} model
+   * @param {UserModel} model
    * @return {{}}
    */
   getOutput(model) {

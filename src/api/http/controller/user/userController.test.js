@@ -14,9 +14,9 @@ chai.use(dirtyChai);
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-const UserController = require('~src/api/http/controller/users/usersController');
+const UserController = require('~src/api/http/controller/user/userController');
 const UnknownException = require('~src/core/exception/unknownException');
-const UserModel = require('~src/core/model/usersModel');
+const UserModel = require('~src/core/model/userModel');
 const DateTime = require('~src/infrastructure/system/dateTime');
 
 const IUserService = require('~src/core/interface/iUserService');
