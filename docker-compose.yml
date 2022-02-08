@@ -5,19 +5,17 @@ services:
     expose:
       - 3000
     ports:
-      - 3000:3000
+      - ${HTTP_PORT:-3000}:3000
     volumes:
       - $PWD:/home/node
       - /etc/localtime:/etc/localtime:ro
     user: node
     working_dir: /home/node
-    restart: "no"
+    restart: "always"
     networks:
       main: { }
     tty: false
-    #    entrypoint: |
-    #      ./scripts/wait-for-it -wait tcp://${PG_HOST:-10.102.0.3}:${PG_PORT:-5432} -wait-retry-interval 5s -timeout 600s
-    command: "sh -c 'npm install && npm run nodemon'"
+    command: "sh -c 'npm install --only prod; npm start'"
 
   mysql:
     image: mysql:latest
@@ -26,7 +24,7 @@ services:
       - MYSQL_DATABASE=shortener
     volumes:
       - mysql-storage:/var/lib/mysql
-    restart: "no"
+    restart: "always"
     networks:
       main: { }
 
