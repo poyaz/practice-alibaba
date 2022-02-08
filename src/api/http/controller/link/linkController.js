@@ -85,7 +85,8 @@ class LinkController {
 
   async addLink() {
     const { userId } = this.#req.params;
-    const body = this.#req;
+    console.log('11111111', this.#req.params);
+    const body = this.#req.body;
 
     const addLinkInputModel = new AddLinkInputModel();
     const model = addLinkInputModel.getModel(userId, body);
@@ -103,7 +104,7 @@ class LinkController {
 
   async updateLink() {
     const { linkId } = this.#req.params;
-    const body = this.#req;
+    const body = this.#req.body;
 
     const updateLinkInputModel = new UpdateLinkInputModel();
     const model = updateLinkInputModel.getModel(linkId, body);

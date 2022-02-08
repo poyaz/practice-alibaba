@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
     },
     userId: {
-      type: Sequelize.STRING(30),
+      type: Sequelize.STRING(200),
       allowNull: false,
     },
     url: {

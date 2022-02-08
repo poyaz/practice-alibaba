@@ -25,10 +25,10 @@ class LinkRepository extends ILinkRepository {
     const offsetCount = (page - 1) * limit;
 
     const options = {
-      offset: offsetCount,
-      limit: limitCount,
+      offset: Number(offsetCount),
+      limit: Number(limitCount),
       order: [
-        ['createAt', 'DESC'],
+        ['createdAt', 'DESC'],
       ],
       include: this.#userEntity,
     };
@@ -45,6 +45,7 @@ class LinkRepository extends ILinkRepository {
 
       return [null, result];
     } catch (error) {
+      console.log(error);
       return [new DatabaseExecuteException(error)];
     }
   }
@@ -143,8 +144,12 @@ class LinkRepository extends ILinkRepository {
   _fillModel(row) {
     const model = new LinkModel();
     model.id = row['id'];
-    model.userId = row['user']['id'];
-    model.username = row['user']['username'];
+    model.userId = row['userId'];
+    if (row['user']) {
+      model.username = row['user']['username'];
+    } else {
+      model.username = null;
+    }
     model.url = row['url'];
     model.redirectTo = row['redirectTo'];
     model.insertDate = row['createdAt'];

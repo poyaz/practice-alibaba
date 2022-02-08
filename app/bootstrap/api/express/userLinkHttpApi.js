@@ -43,7 +43,7 @@ class UserLinkHttpApi extends IRunner {
     });
 
     router.get(
-      '/links',
+      '/:userId/links',
       async (req, res, next) => {
         try {
           const linkController = new LinkController(req, res, this._dependency.linkService, this._dependency.dateTime);
@@ -58,7 +58,7 @@ class UserLinkHttpApi extends IRunner {
     );
 
     router.post(
-      '/links',
+      '/:userId/links',
       async (req, res, next) => {
         try {
           const addLinkValidationMiddleware = new AddLinkValidationMiddleware(req, res);
@@ -83,7 +83,7 @@ class UserLinkHttpApi extends IRunner {
     );
 
     router.put(
-      '/links/:linkId',
+      '/:userId/links/:linkId',
       async (req, res, next) => {
         try {
           const updateLinkValidationMiddleware = new UpdateLinkValidationMiddleware(req, res);
@@ -108,7 +108,7 @@ class UserLinkHttpApi extends IRunner {
     );
 
     router.delete(
-      '/links/:linkId',
+      '/:userId/links/:linkId',
       async (req, res, next) => {
         try {
           const linkController = new LinkController(req, res, this._dependency.linkService, this._dependency.dateTime);
