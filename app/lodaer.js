@@ -13,11 +13,11 @@ const DateTime = require('~src/infrastructure/system/dateTime');
 const JwtToken = require('~src/infrastructure/system/jwtToken');
 const IdentifierGenerator = require('~src/infrastructure/system/identifierGenerator');
 
+const UserRepository = require('~src/infrastructure/database/userRepository');
+const LinkRepository = require('~src/infrastructure/database/linkRepository');
+
 const UserService = require('~src/core/service/userService');
 const LinkService = require('~src/core/service/linkService');
-
-const UserController = require('~src/api/http/controller/user/userController');
-const LinkController = require('~src/api/http/controller/link/linkController');
 
 class Loader {
   constructor({ cwd = '', name = '', version = '' } = {}) {
@@ -40,13 +40,18 @@ class Loader {
       this._config.getStr('custom.timezone.zone'),
     );
 
-    const userService = new UserService(null);
-    const linkService = new LinkService(null, '');
+    const userRepository = new UserRepository(identifierGenerator, mysqlDb.user);
+    const linkRepository = new LinkRepository(identifierGenerator, mysqlDb.link, mysqlDb.user);
+
+    const userService = new UserService(userRepository);
+    const linkService = new LinkService(linkRepository, this._config.getStr('custom.baseUrlPrefix'));
 
     this._dependency = {
       jwtToken,
       identifierGenerator,
       dateTime,
+      userRepository,
+      linkRepository,
       userService,
       linkService,
     };

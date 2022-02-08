@@ -29,9 +29,10 @@ class UserLinkHttpApi extends IRunner {
   }
 
   async start() {
-    router.use(async (req, res, next) => {
+    router.use('/api/v1/users/:userId', async (req, res, next) => {
+      console.log('ssss');
       try {
-        const tokenMiddleware = new TokenMiddleware(req, res);
+        const tokenMiddleware = new TokenMiddleware(req, res, this._dependency.jwtToken);
 
         await tokenMiddleware.act();
 
@@ -42,7 +43,7 @@ class UserLinkHttpApi extends IRunner {
     });
 
     router.get(
-      '/:userId/links',
+      '/links',
       async (req, res, next) => {
         try {
           const linkController = new LinkController(req, res, this._dependency.linkService, this._dependency.dateTime);
@@ -57,7 +58,7 @@ class UserLinkHttpApi extends IRunner {
     );
 
     router.post(
-      '/:userId/links',
+      '/links',
       async (req, res, next) => {
         try {
           const addLinkValidationMiddleware = new AddLinkValidationMiddleware(req, res);
@@ -82,7 +83,7 @@ class UserLinkHttpApi extends IRunner {
     );
 
     router.put(
-      '/:userId/links/:linkId',
+      '/links/:linkId',
       async (req, res, next) => {
         try {
           const updateLinkValidationMiddleware = new UpdateLinkValidationMiddleware(req, res);
@@ -107,7 +108,7 @@ class UserLinkHttpApi extends IRunner {
     );
 
     router.delete(
-      '/:userId/links/:linkId',
+      '/links/:linkId',
       async (req, res, next) => {
         try {
           const linkController = new LinkController(req, res, this._dependency.linkService, this._dependency.dateTime);

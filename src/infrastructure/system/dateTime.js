@@ -74,7 +74,7 @@ class DateTime extends IDateTime {
    * @private
    */
   _gregorianWithTimezone(date) {
-    if (typeof date.getTimezoneOffset === 'function' && date.getTimezoneOffset() === 0) {
+    if (Object.hasOwnProperty.call(date, 'getTimezoneOffset') && typeof date.getTimezoneOffset === 'function' && date.getTimezoneOffset() === 0) {
       return moment(date);
     }
     if (

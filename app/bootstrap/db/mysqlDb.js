@@ -2,11 +2,7 @@
  * Created by pooya on 8/29/21.
  */
 
-/**
- * @property builtins
- * @property builtins.NUMERIC
- */
-const mysql = require('mysql');
+const Sequelize = require('sequelize');
 
 const IRunner = require('~interface/iRunner');
 
@@ -32,14 +28,31 @@ class MysqlDb extends IRunner {
       database: this._config.getStr('database.mysql.db'),
       user: this._config.getStr('database.mysql.username'),
       password: this._config.getStr('database.mysql.password'),
-      connectionLimit: this._config.getNum('database.mysql.max'),
+      min: this._config.getNum('database.mysql.min'),
+      max: this._config.getNum('database.mysql.max'),
     };
 
-    const db = mysql.createPool(dbOption);
-
-    db.on('error', (error) => {
-      throw error;
+    const sequelize = new Sequelize(dbOption.database, dbOption.user, dbOption.password, {
+      host: dbOption.host,
+      dialect: 'mysql',
+      operatorsAliases: false,
+      pool: {
+        max: dbOption.max,
+        min: dbOption.max,
+        acquire: 30000,
+        idle: 10000,
+      },
     });
+    const db = {};
+    db.Sequelize = Sequelize;
+    db.sequelize = sequelize;
+
+    db.user = require('~src/infrastructure/database/entity/user.entity')(sequelize, Sequelize);
+    db.link = require('~src/infrastructure/database/entity/link.entity')(sequelize, Sequelize);
+
+    db.link.belongsTo(db.user);
+
+    await db.sequelize.sync();
 
     return db;
   }

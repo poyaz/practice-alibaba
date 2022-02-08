@@ -10,12 +10,14 @@ const ForbiddenException = require('~src/core/exception/forbiddenException');
 class TokenMiddleware extends IHttpMiddleware {
   #req;
   #res;
+  #jwtToken;
 
-  constructor(req, res) {
+  constructor(req, res, jwtToken) {
     super();
 
     this.#req = req;
     this.#res = res;
+    this.#jwtToken = jwtToken;
   }
 
   async act() {
@@ -29,7 +31,7 @@ class TokenMiddleware extends IHttpMiddleware {
     let data;
 
     try {
-      data = this._dependency.jwtToken.verify(token);
+      data = this.#jwtToken.verify(token);
     } catch (error) {
       throw new ForbiddenException();
     }

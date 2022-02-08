@@ -84,7 +84,7 @@ class UserHttpApi extends IRunner {
       '/:userId',
       async (req, res, next) => {
         try {
-          const tokenMiddleware = new TokenMiddleware(req, res);
+          const tokenMiddleware = new TokenMiddleware(req, res, this._dependency.jwtToken);
 
           await tokenMiddleware.act();
 

@@ -60,7 +60,7 @@ class InterceptorMiddleware extends IRunner {
       } else {
         const obj = {
           status: 'success',
-          ...data,
+          data: data,
         };
 
         res.status(statusCode).json(obj);

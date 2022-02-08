@@ -49,6 +49,7 @@ class HttpServer extends IRunner {
         res.status(error.statusCode || 400).json({
           status: 'error',
           reason: error.message.toString(),
+          ...(error.additionalInfo && { additionalInfo: error.additionalInfo }),
         });
       }
 
@@ -68,7 +69,7 @@ class HttpServer extends IRunner {
     router.use('/api/v1/links', linkHttpApi);
 
     const userLinkHttpApi = await new UserLinkHttpApi(this._config, this._options, this._dependency).start();
-    router.use('/api/v1/users', userLinkHttpApi);
+    router.use('/api/v1/users/:userId', userLinkHttpApi);
 
     const interceptorMiddleware = await new InterceptorMiddleware(this._config, this._options, this._dependency).start();
     router.use('/', interceptorMiddleware);

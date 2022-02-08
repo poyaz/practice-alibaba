@@ -23,7 +23,7 @@ class LoginUserOutputModel {
    */
   getOutput(model) {
     return {
-      token: this.#jwt.sign({ id: model.id }),
+      token: this.#jwt.sign({ userId: model.id }),
     };
   }
 }

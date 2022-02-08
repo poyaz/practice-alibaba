@@ -12,24 +12,27 @@ services:
     user: node
     working_dir: /home/node
     restart: "no"
-    network_mode: bridge
-    links:
-      - mysql
+    networks:
+      main: { }
     tty: false
     #    entrypoint: |
     #      ./scripts/wait-for-it -wait tcp://${PG_HOST:-10.102.0.3}:${PG_PORT:-5432} -wait-retry-interval 5s -timeout 600s
     command: "sh -c 'npm install && npm run nodemon'"
 
   mysql:
-    image: mysql:5.6
+    image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=shortener
     volumes:
       - mysql-storage:/var/lib/mysql
     restart: "no"
-    network_mode: bridge
+    networks:
+      main: { }
 
 volumes:
   mysql-storage:
     driver: local
+
+networks:
+  main:
